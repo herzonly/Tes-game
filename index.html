@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Are You Talking to a Bot or Human?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        #chat-box {
+            display: none;
+            margin-top: 20px;
+        }
+        #message {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #send-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #timer {
+            font-size: 18px;
+            margin-top: 10px;
+            color: red;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px;
+            display: none;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Are You Talking to a Bot or Human?</h1>
+    <button id="start-chat">Start Chat</button>
+    
+    <div id="chat-box">
+        <p id="timer">Time Left: 15s</p>
+        <textarea id="message" rows="5" placeholder="Type your message here..."></textarea><br>
+        <button id="send-btn">Send</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        const startBtn = document.getElementById('start-chat');
+        const chatBox = document.getElementById('chat-box');
+        const timerElement = document.getElementById('timer');
+        const result = document.getElementById('result');
+        let timer;
+        let timeLeft = 15;
+
+        startBtn.addEventListener('click', () => {
+            chatBox.style.display = 'block';
+            startBtn.style.display = 'none';
+            startTimer();
+        });
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Time Left: ${timeLeft}s`;
+                if (timeLeft === 0) {
+                    clearInterval(timer);
+                    endChat();
+                }
+            }, 1000);
+        }
+
+        function endChat() {
+            chatBox.style.display = 'none';
+            const userGuess = prompt("Do you think you were talking to a Bot or Human? (Type 'Bot' or 'Human')");
+            
+            // Mock backend response
+            const isBot = Math.random() > 0.5; // 50% chance of talking to a bot
+            if ((userGuess === 'Bot' && isBot) || (userGuess === 'Human' && !isBot)) {
+                result.textContent = "You guessed correctly!";
+                result.className = "success";
+            } else {
+                result.textContent = "Wrong guess! Try again.";
+                result.className = "error";
+            }
+            result.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
